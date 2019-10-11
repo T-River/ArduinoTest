@@ -18,7 +18,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private String TAG = MainActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +25,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //TextViewの設定
-        TextView data =  findViewById(R.id.arduino);
         TextView StartingMessage  = findViewById(R.id.Run);
 
-        data.setText(R.string.data);
+        StartingMessage.setText(R.string.text);
 
         //つながってるものから使える全部のデバイス見つける
         UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
@@ -51,9 +49,6 @@ public class MainActivity extends AppCompatActivity {
             port.open(connection);
             port.setParameters(9600, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
 
-            byte buffer[] = new byte[1000];//受信したデータをいれるもの
-            int read = port.read(buffer,1000);
-            Log.d(TAG,"Read" + read);
         } catch (IOException e) {
 
         }finally{
