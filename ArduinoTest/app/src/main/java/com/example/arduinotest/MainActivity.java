@@ -26,8 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
         //TextViewの設定
         TextView StartingMessage  = findViewById(R.id.Run);
+        TextView data = findViewById(R.id.arduino);
 
-        StartingMessage.setText(R.string.text);
+        StartingMessage.setText(R.string.running);
 
         //つながってるものから使える全部のデバイス見つける
         UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
@@ -45,10 +46,14 @@ public class MainActivity extends AppCompatActivity {
 
         UsbSerialPort port = driver.getPorts().get(0);
         try {
-
             port.open(connection);
             port.setParameters(9600, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
 
+            byte buffer[] = new byte[10000]; //受信データ格納
+            int num = port.read(buffer,buffer.length);
+            Log.d(TAG, "Read " + num + " bytes.");
+            String readMsg = new String(buffer,0,num);
+            data.setText(readMsg);
         } catch (IOException e) {
 
         }finally{

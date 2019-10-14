@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">ArduinoTest</string>
-    <string name="data">TextView</string>
     <string name="running">Running</string>
     <string name="text">Just a minutes!</string>>
 </resources>
