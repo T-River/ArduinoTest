@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">ArduinoTest</string>
     <string name="running">Running</string>
-    <string name="text">Just a minutes!</string>>
+    <string name="text">data</string>>
+    <string name="empty">No Device.</string>
+    <string name="open">port open</string>
 </resources>
