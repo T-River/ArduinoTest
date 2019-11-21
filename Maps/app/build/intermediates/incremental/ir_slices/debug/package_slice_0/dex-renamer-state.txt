@@ -1,0 +1,4 @@
+#Thu Apr 18 15:53:19 JST 2019
+base.0=C\:\\Users\\yuki\\AndroidStudioProjects\\Maps\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+path.0=classes.dex
+renamed.0=classes.dex
