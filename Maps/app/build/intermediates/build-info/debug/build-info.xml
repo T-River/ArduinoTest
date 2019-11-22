@@ -5,23 +5,23 @@
     build-mode="FULL"
     density="xxhdpi"
     format="10"
-    plugin-version="3.2.1"
-    timestamp="1555585630511"
+    plugin-version="3.4.1"
+    timestamp="1559806848186"
     token="-3015244719557567461"
     verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="1196" />
+        duration="3364" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="415" />
+        duration="592" />
     <task
         name="verifier"
-        duration="32" />
+        duration="175" />
 
     <artifact
         location="C:\Users\yuki\AndroidStudioProjects\Maps\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
@@ -33,10 +33,10 @@
         location="C:\Users\yuki\AndroidStudioProjects\Maps\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
         type="SPLIT" />
     <artifact
-        location="C:\Users\yuki\AndroidStudioProjects\Maps\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+        location="C:\Users\yuki\AndroidStudioProjects\Maps\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
         type="SPLIT" />
     <artifact
-        location="C:\Users\yuki\AndroidStudioProjects\Maps\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
+        location="C:\Users\yuki\AndroidStudioProjects\Maps\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
         type="SPLIT" />
     <artifact
         location="C:\Users\yuki\AndroidStudioProjects\Maps\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
@@ -65,7 +65,7 @@
 
     <build
         build-mode="FULL"
-        timestamp="1555585630511"
+        timestamp="1559806848186"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="C:\Users\yuki\AndroidStudioProjects\Maps\app\build\intermediates\split-apk\debug\slices\slice_8.apk"
@@ -77,10 +77,10 @@
             location="C:\Users\yuki\AndroidStudioProjects\Maps\app\build\intermediates\split-apk\debug\slices\slice_2.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\yuki\AndroidStudioProjects\Maps\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
+            location="C:\Users\yuki\AndroidStudioProjects\Maps\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\yuki\AndroidStudioProjects\Maps\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
+            location="C:\Users\yuki\AndroidStudioProjects\Maps\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
             type="SPLIT" />
         <artifact
             location="C:\Users\yuki\AndroidStudioProjects\Maps\app\build\intermediates\split-apk\debug\dep\dependencies.apk"
