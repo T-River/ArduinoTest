@@ -17,17 +17,26 @@ import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialPort;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private String TAG = "ArduinoTest";
     private String readMsg = "";
+    private  byte[] command;
     //シリアル通信関連
     private boolean mFinished;
+    //private int FirstRequest ;
     private UsbSerialPort port;
     UsbDeviceConnection connection;
+
+    private String FileName = "dataFile.txt";
 
     //permission
     PendingIntent mPermissionIntent;
@@ -35,14 +44,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {        //TODO:常にUSB接続状態を確認
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //TextViewの設定
-        TextView StartingMessage  = findViewById(R.id.Run);
         TextView none = findViewById(R.id.isEmpty);
-        StartingMessage.setText(R.string.running);
+        //TextView debug =findViewById(R.id.debug1);
 
         //----------------------------------USB---------------------------------------------------------------------------------------------------------------//
 
@@ -50,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
         List<UsbSerialDriver> availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager);
         if (availableDrivers.isEmpty()) {
+            //FirstRequest = 0;
             none.setText(R.string.empty);
             Log.d(TAG,"Usb device is not connect.");
             //return;
@@ -70,8 +79,21 @@ public class MainActivity extends AppCompatActivity {
                 port = driver.getPorts().get(0);
                 try {
                     port.open(connection);
+                    //debug.setText("接続済み");
                     port.setParameters(9600, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
+
                     mFinished = false;
+                    command = new byte[1];
+                    command[0] = 0x02;
+                    port.write(command,100);
+                    //debug.setText("送信完了");
+
+                    /*if(FirstRequest == 0){
+                        command = new byte[1];
+                        command[0] = 0x02;
+                        port.write(command,100);
+                        debug.setText("送信完了");
+                    }*/
 
                     start_read_thread();
                 } catch (IOException e) {
@@ -106,40 +128,82 @@ public class MainActivity extends AppCompatActivity {
 
     /************************************Serial通信スレッド********************************** **************/
 
-    public void start_read_thread(){
-        new Thread(new Runnable(){
+    public void start_read_thread() {
+        new Thread(new Runnable() {
             @Override
-            public void run(){
-                try{
-                    Log.d(TAG,"Thread Start");
-                    while(!mFinished){
+            public void run() {
+                try {
+                    //TextView debug2 = findViewById(R.id.debug2);
+                    //debug2.setText("スレッド開始");
+                    //FirstRequest = 1;
+                    Log.d(TAG, "Thread Start");
+                    while (!mFinished) {
+                        //debug2.setText("message");
                         Message msg = Message.obtain(mHandler);
                         byte[] buff = new byte[256];
-                        int num = port.read(buff,buff.length);
+                        //buff = new byte[256];
+                        int num = port.read(buff, buff.length);
                         readMsg = new String(buff, 0, num);      //(byte[],offset,復号化するバイト数)
                         msg.obj = readMsg;
                         mHandler.sendMessage(msg);
+                        //saveFile(FileName, readMsg);
 
-                        Thread.sleep(10);
+                        Thread.sleep(500);
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
+                    command = new byte[1];
+                    command[0] = 0x02;
+                    try {
+                        //TextView debug2 =findViewById(R.id.debug2);
+                        //debug2.setText("計測要求");
+                        port.write(command,100);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
-                }finally{
-                    Log.d(TAG,"Thread Finally");
+                } finally {
+                    Log.d(TAG, "Thread Finish");
                 }
             }
         }).start();
     }
     Handler mHandler = new Handler(){
         @Override
-        public void handleMessage(Message msg){
+        public  void handleMessage(Message msg){
+            //TextView debug3 = findViewById(R.id.debug3);
+            //debug3.setText("Handler");
             TextView data = findViewById(R.id.arduino);
-
             String mData = (String)msg.obj;
-            data.setText(mData);
+            saveFile(FileName, mData);
+            String rData = readfile(FileName);
+            data.setText(rData);
         }
     };
+
+    public void saveFile(String file, String str){
+        try (FileOutputStream fileOutputStream = openFileOutput(file, Context.MODE_PRIVATE)){
+            fileOutputStream.write(str.getBytes());
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    public String readfile(String file){
+        String text = null;
+
+        try (FileInputStream fileInputStream = openFileInput(file);
+             BufferedReader reader= new BufferedReader(
+                     new InputStreamReader(fileInputStream, StandardCharsets.UTF_8))){
+            String lineBuffer;
+            while( (lineBuffer = reader.readLine()) != null ){
+                text = lineBuffer;
+            }
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return text;
+    }
 }
 
