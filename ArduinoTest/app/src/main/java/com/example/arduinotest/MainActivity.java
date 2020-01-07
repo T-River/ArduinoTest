@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
 
-    /************************************Serial通信スレッド********************************** **************/
+    /************************************Serial通信スレッド************************************************/
 
     public void start_read_thread() {
         new Thread(new Runnable() {
@@ -169,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
     }
+
     Handler mHandler = new Handler(){
         @Override
         public  void handleMessage(Message msg){
